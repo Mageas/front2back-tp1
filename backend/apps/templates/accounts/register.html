@@ -56,6 +56,14 @@
             </div>
           </div>
           <div class="input-group mb-3">
+              {{ form.company(class="form-control", placeholder="Select a company") }}
+              <div class="input-group-append">
+                  <div class="input-group-text">
+                      <span class="fas fa-building"></span>  <!-- Or fa-list, fa-sitemap -->
+                  </div>
+              </div>
+          </div>
+          <div class="input-group mb-3">
             {{ form.password(placeholder="Mot de passe", class="form-control", type="password") }}
             <div class="input-group-append">
               <div class="input-group-text">

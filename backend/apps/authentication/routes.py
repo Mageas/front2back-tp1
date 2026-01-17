@@ -3,6 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+from apps.base.models.company import Company
 from flask import render_template, redirect, request, url_for, current_app
 from flask_login import (
     current_user,
@@ -63,8 +64,13 @@ def register():
     create_account_form = CreateAccountForm(request.form)
     if 'register' in request.form:
 
+        form_data = request.form.copy()
+
         username = request.form['username']
         email = request.form['email']
+        company_id = int(request.form['company']) if request.form['company'] else None
+        form_data['company_id'] = company_id
+        form_data.pop('company', None)
 
         # Check usename exists
         user = Users.query.filter_by(username=username).first()
@@ -83,7 +89,7 @@ def register():
                                    form=create_account_form)
 
         # else we can create the user
-        user = Users(**request.form)
+        user = Users(**form_data)
         db.session.add(user)
         db.session.commit()
 
@@ -93,6 +99,8 @@ def register():
                                form=create_account_form)
 
     else:
+        companies = Company.query.all()
+        create_account_form.company.choices = [('', 'Select a company...')] + [(str(company.id), company.name) for company in companies]
         return render_template('accounts/register.html', form=create_account_form)
 
 
