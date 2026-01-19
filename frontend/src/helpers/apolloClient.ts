@@ -7,10 +7,6 @@ import { getMainDefinition } from "@apollo/client/utilities";
 const createApolloClient = () => {
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_HASURA_URL,
-    headers: {
-      "x-hasura-admin-secret":
-        process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET || "",
-    },
   });
 
   const authLink = setContext((_, { headers }) => {
@@ -38,8 +34,6 @@ const createApolloClient = () => {
               const token = localStorage.getItem("token");
               return {
                 headers: {
-                  "x-hasura-admin-secret":
-                    process.env.NEXT_PUBLIC_HASURA_ADMIN_SECRET || "",
                   authorization: token ? `Bearer ${token}` : "",
                 },
               };

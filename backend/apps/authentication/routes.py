@@ -177,7 +177,15 @@ def api_login():
     user = Users.query.filter_by(username=username).first()
 
     if user and verify_pass(password, user.password):
-        access_token = create_access_token(identity=username)
+        additional_claims = {
+            "https://hasura.io/jwt/claims": {
+                "x-hasura-allowed-roles": ["user"],
+                "x-hasura-default-role": "user",
+                "x-hasura-user-id": str(user.id),
+                "x-hasura-role": "user"
+            }
+        }
+        access_token = create_access_token(identity=username, additional_claims=additional_claims)
         return jsonify(access_token=access_token), 200
 
     return jsonify({"msg": "Bad username or password"}), 401
