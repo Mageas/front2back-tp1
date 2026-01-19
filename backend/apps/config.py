@@ -2,7 +2,10 @@
 import os
 import locale
 
-locale.setlocale(locale.LC_ALL, 'fr_FR.utf8')
+try:
+    locale.setlocale(locale.LC_ALL, 'fr_FR.utf8')
+except locale.Error:
+    print("Warning: Locale 'fr_FR.utf8' not found. Using default locale.")
 
 
 class Config(object):
