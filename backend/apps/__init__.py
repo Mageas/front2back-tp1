@@ -5,14 +5,17 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from importlib import import_module
 from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+jwt = JWTManager()
 
 
 def register_extensions(app):
     db.init_app(app)
     login_manager.init_app(app)
+    jwt.init_app(app)
 
 
 def register_blueprints(app):

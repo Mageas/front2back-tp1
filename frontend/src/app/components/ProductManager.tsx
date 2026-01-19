@@ -24,7 +24,12 @@ export default function ProductManager() {
 
   // Fetch products on initial load
   useEffect(() => {
-    fetch(productUri)
+    fetch(productUri, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    })
       .then((res) => res.json())
       .then((data) => setProducts(data.data));
   }, []);
@@ -38,7 +43,10 @@ export default function ProductManager() {
 
     const res = await fetch(productUri, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
       body: JSON.stringify(newProduct),
     });
     const product = await res.json();
@@ -52,7 +60,10 @@ export default function ProductManager() {
 
     const res = await fetch(`${productUri}/${editingProduct.id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
       body: JSON.stringify(editingProduct),
     });
     await res.json();
@@ -64,7 +75,12 @@ export default function ProductManager() {
 
   // Delete a product
   const deleteProduct = async (id: number) => {
-    await fetch(`${productUri}/${id}`, { method: 'DELETE' });
+    await fetch(`${productUri}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      },
+    });
     setProducts((prev) => prev.filter((p) => p.id !== id));
   };
 
@@ -117,7 +133,7 @@ export default function ProductManager() {
 
       {/* List of Products */}
       <ul>
-        {products.map((product) => (
+        {products && products.map((product) => (
           <li key={product.id} className="mb-2 flex items-center">
             <div className="flex-1">
               <span className="font-bold">{product.name}</span> - {product.comment} (

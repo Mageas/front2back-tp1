@@ -19,6 +19,8 @@ from apps.authentication.util import verify_pass
 
 from apps.authentication.models import Users
 from flasgger.utils import swag_from
+from flask_jwt_extended import create_access_token, jwt_required
+from flask import jsonify
 
 
 @blueprint.route('/')
@@ -130,3 +132,52 @@ def not_found_error(error):
 @blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500
+
+
+@blueprint.route('/api/login', methods=['POST'])
+def api_login():
+    """
+    Login endpoint
+    ---
+    tags:
+      - Authentication
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+    responses:
+      200:
+        description: JWT Access Token
+        schema:
+          type: object
+          properties:
+            access_token:
+              type: string
+      400:
+        description: Bad Request
+      401:
+        description: Unauthorized
+    """
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+
+    if not username or not password:
+        return jsonify({"msg": "Missing username or password"}), 400
+
+    user = Users.query.filter_by(username=username).first()
+
+    if user and verify_pass(password, user.password):
+        access_token = create_access_token(identity=username)
+        return jsonify(access_token=access_token), 200
+
+    return jsonify({"msg": "Bad username or password"}), 401

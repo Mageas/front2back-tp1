@@ -3,6 +3,7 @@ from flask import render_template, request, jsonify
 from flask_login import (
     current_user,
 )
+from flask_jwt_extended import jwt_required
 from flasgger.utils import swag_from
 
 from apps import db
@@ -39,10 +40,13 @@ def has_permission(model, method):
     # return current_user.is_authenticated
 
 @blueprint.route('/company/', endpoint='company-without-id', methods=['GET'])
+@jwt_required()
 @swag_from('swagger/company_without_id_specs.yml', endpoint='base_blueprint.company-without-id', methods=['GET'])
 @blueprint.route('/company/<int:cmp_id>', endpoint='company-with-id', methods=['GET'])
+@jwt_required()
 @swag_from('swagger/company_with_id_specs.yml', endpoint='base_blueprint.company-with-id', methods=['GET'])
 @blueprint.route('/company/', endpoint='company-create', methods=['POST'])
+@jwt_required()
 @swag_from('swagger/company_create_specs.yml', endpoint='base_blueprint.company-create', methods=['POST'])
 def company(cmp_id=None):
     if not has_permission('Company', request.method):
@@ -69,14 +73,19 @@ def company(cmp_id=None):
 
 
 @blueprint.route('/product/', endpoint='product-without-id', methods=['GET'])
+@jwt_required()
 @swag_from('swagger/product_without_id_specs.yml', endpoint='base_blueprint.product-without-id', methods=['GET'])
 @blueprint.route('/product/<int:product_id>', endpoint='product-with-id', methods=['GET'])
+@jwt_required()
 @swag_from('swagger/product_with_id_specs.yml', endpoint='base_blueprint.product-with-id', methods=['GET'])
 @blueprint.route('/product/', endpoint='product-create', methods=['POST'])
+@jwt_required()
 @swag_from('swagger/product_create_specs.yml', endpoint='base_blueprint.product-create', methods=['POST'])
 @blueprint.route('/product/<int:product_id>', endpoint='product-update', methods=['PUT', 'PATCH'])
+@jwt_required()
 @swag_from('swagger/product_create_specs.yml', endpoint='base_blueprint.product-update', methods=['PUT', 'PATCH'])
 @blueprint.route('/product/<int:product_id>', endpoint='product-delete', methods=['DELETE'])
+@jwt_required()
 @swag_from('swagger/product_with_id_specs.yml', endpoint='base_blueprint.product-delete', methods=['DELETE'])
 def product(product_id=None):
     if not has_permission('Product', request.method):

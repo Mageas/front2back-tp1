@@ -9,6 +9,7 @@ class Config(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
 
     SECRET_KEY = os.getenv('SECRET_KEY', None)
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY', 'default-secret-key-change-me')
 
     # CDN Support Settings 
     SQLALCHEMY_TRACK_MODIFICATIONS = False

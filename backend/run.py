@@ -28,27 +28,27 @@ except KeyError:
     exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
 
 app = create_app(app_config)
-CORS(app, resources={r"/*": {"origins": "*"}}, methods=["GET", "POST"], headers=["Content-Type", "Authorization"])
+CORS(app, resources={r"/*": {"origins": "*"}}, methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"], allow_headers=["Content-Type", "Authorization", "X-Requested-With"])
 
 swagger_template = {
     'swagger': '2.0',
     'info': {
         'title': 'API Documentation',
         'version': '1.0'
-    }
+    },
+    'securityDefinitions': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Bearer <token>'
+        }
+    },
+    'security': [
+        {'Bearer': []}
+    ]
 }
 Swagger(app, template=swagger_template)
-
-
-
-@app.before_request
-def handle_options_request():
-    if request.method == 'OPTIONS':
-        response = app.response_class(status=200)
-        response.headers['Access-Control-Allow-Origin'] = '*'
-        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        return response
 
 
 if DEBUG:
