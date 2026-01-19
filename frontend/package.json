@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "eject": "react-scripts eject",
-    "generate": "graphql-codegen --config codegen.js"
+    "generate": "graphql-codegen --config codegen.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@apollo/client": "^4.1.0",
@@ -27,13 +29,20 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4.1.18",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/jest": "^30.0.0",
     "@types/node": "^25",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.2",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "postcss": "^8",
     "tailwindcss": "^4.1.18",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
