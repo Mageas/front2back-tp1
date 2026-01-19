@@ -1,0 +1,27 @@
+Create a Company endpoint
+---
+tags:
+  - Company
+parameters:
+  - name: name
+    in: formData
+    description: Name of the company
+    required: true
+    type: string
+definitions:
+  Company:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+responses:
+  200:
+    description: The created Company object
+    schema:
+      $ref: '#/definitions/Company'

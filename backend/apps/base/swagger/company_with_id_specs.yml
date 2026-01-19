@@ -1,0 +1,27 @@
+Get a Company endpoint
+---
+tags:
+  - Company
+parameters:
+  - name: cmp_id
+    in: path
+    description: ID of the company
+    required: true
+    type: integer
+definitions:
+  Company:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+responses:
+  200:
+    description: A Company object
+    schema:
+      $ref: '#/definitions/Company'
