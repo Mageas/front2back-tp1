@@ -79,6 +79,24 @@ services:
     networks:
       - course_tp_coord_front_back
 
+  hasura:
+    image: hasura/graphql-engine:latest.cli-migrations-v3
+    ports:
+      - "8080:8080"
+    depends_on:
+      db_tp_coord_front_back:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./dockerdata/hasura:/migrations
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: ${DB_URL}
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ADMIN_SECRET: ${HASURA_GRAPHQL_ADMIN_SECRET}
+    networks:
+      - course_tp_coord_front_back
+
 networks:
   course_tp_coord_front_back:
     name: course_tp_coord_front_back

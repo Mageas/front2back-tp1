@@ -1,5 +1,16 @@
 # Coordination frontend / backend
 
+## Sauvegarder la configuration Hasura
+Dans un premier temps il faut créer le fichier config
+```sh
+docker compose exec -it hasura bash -c 'echo "version: 3" > /migrations/config.yaml'
+```
+
+Lancer la sauvegarde des metadata
+```sh
+docker compose exec -it hasura bash -c 'cd /migrations && hasura-cli metadata export --admin-secret "mon-petit-secret"'
+```
+
 ## Contenu du repository
 Ce repository est constitué d'une application fullstack :
 - Base de donnée **Postgresql** accessible sur le port `5440`
