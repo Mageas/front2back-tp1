@@ -58,8 +58,15 @@ class DebugConfig(Config):
     DEBUG = True
 
 
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    WTF_CSRF_ENABLED = False
+
+
 # Load all possible configurations
 config_dict = {
     'Production': ProductionConfig,
-    'Debug': DebugConfig
+    'Debug': DebugConfig,
+    'Testing': TestConfig
 }

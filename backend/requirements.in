@@ -12,3 +12,7 @@ flask-restx
 psycopg2
 flasgger
 flask-jwt-extended
+
+# Testing
+pytest
+pytest-flask
