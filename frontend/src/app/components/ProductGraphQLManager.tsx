@@ -1,11 +1,11 @@
 "use client";
 
-import { useQuery } from "@apollo/client/react";
+import { useSubscription } from "@apollo/client/react";
 import { gql } from "@apollo/client/core";
 import { Product } from "../../generated/graphql.js"
 
-const GET_PRODUCTS = gql`
-  query GetProducts {
+const SUBSCRIBE_PRODUCTS = gql`
+  subscription SubscribeProducts {
     product {
       id
       name
@@ -20,14 +20,14 @@ const GET_PRODUCTS = gql`
 `;
 
 export default function ProductGraphQLManager() {
-  const { loading, error, data } = useQuery<{ product: Product[] }>(GET_PRODUCTS);
+  const { loading, error, data } = useSubscription<{ product: Product[] }>(SUBSCRIBE_PRODUCTS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="p-4 border-t mt-8">
-      <h1 className="text-xl font-bold mb-4">Product Manager (GraphQL - Read Only)</h1>
+      <h1 className="text-xl font-bold mb-4">Product Manager (GraphQL - Subscription)</h1>
       <ul>
         {data && data.product.map((product: Product) => (
           <li key={product.id} className="mb-2 flex items-center">
