@@ -1,3 +1,5 @@
+Arnaud Gaydamour
+
 # Coordination frontend / backend
 
 ## Charger la configuration Hasura
