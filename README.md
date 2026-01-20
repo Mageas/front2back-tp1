@@ -1,5 +1,11 @@
 # Coordination frontend / backend
 
+## Charger la configuration Hasura
+Dans un premier temps il faut créer le fichier config
+```sh
+docker compose exec -it hasura bash -c 'cd /migrations && hasura-cli metadata apply'
+```
+
 ## Sauvegarder la configuration Hasura
 Dans un premier temps il faut créer le fichier config
 ```sh
